@@ -44,3 +44,27 @@ Les workflows GitHub Actions ne sont **pas** fournis. A vous de les creer dans
   **GitHub Pages**.
 
 > L'artifact a publier est le dossier `dist/` produit par `npm run build`.
+
+---
+
+# Rendu TP - Partie 2
+
+# MediTrack Front
+
+Frontend Angular 17 de l'application MediTrack, interfaçant avec l'API pour la gestion de stock et le suivi des prescriptions en officine.
+
+### Configuration Karma
+
+J'ai modifié `karma.conf.js` pour utiliser `ChromeHeadlessCI` à la place de `ChromeHeadless`. La différence est importante : `ChromeHeadlessCI` inclut les flags `--no-sandbox` et `--disable-gpu` qui sont obligatoires sur les runners GitHub qui n'ont pas d'interface graphique. 
+Sans ça, Chrome refuse de démarrer en CI.
+
+J'ai aussi passé `restartOnFileChange` à `false` car en CI il n'y a pas de fichiers qui changent — laisser cette option à `true` peut bloquer le runner indéfiniment.
+
+### Workflow CI Angular
+
+J'ai créé `.github/workflows/ci-angular.yml` avec une matrice sur Node 18 et Node 20. Ça me permet de vérifier que le projet fonctionne sur les deux versions LTS actuelles de Node en parallèle.
+
+J'ai ajouté `fail-fast: false` pour que si un job échoue, l'autre continue jusqu'au bout. Sans ça GitHub annule tous les jobs dès le premier échec, ce qui m'empêche de voir l'état complet de la matrice.
+
+Le build de production est uploadé comme artifact avec un nom distinct par version Node (`dist-node-18`, `dist-node-20`). 
+Ça me permet de télécharger et vérifier le bundle sans avoir à rebuilder localement.
