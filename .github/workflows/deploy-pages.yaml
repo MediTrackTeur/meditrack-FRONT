@@ -34,7 +34,7 @@ jobs:
         run: npm ci
 
       - name: Build production
-        run: npx ng build --configuration production --base-href /meditrack-front/
+        run: npx ng build --configuration production --base-href /meditrack-FRONT/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
