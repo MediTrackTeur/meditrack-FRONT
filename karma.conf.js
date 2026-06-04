@@ -27,7 +27,7 @@ module.exports = function (config) {
       reporters: [{ type: 'html' }, { type: 'text-summary' }]
     },
     reporters: ['progress', 'kjhtml'],
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadlessCI'],
     customLaunchers: {
       ChromeHeadlessCI: {
         base: 'ChromeHeadless',
@@ -39,6 +39,6 @@ module.exports = function (config) {
         ]
       }
     },
-    restartOnFileChange: true
+    restartOnFileChange: false
   });
 };
